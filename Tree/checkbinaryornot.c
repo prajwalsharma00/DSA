@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<unistd.h>
 #include<stdlib.h>
+#include<limits.h>
 struct Node{
     int value;
     struct Node* left;
@@ -30,7 +31,7 @@ void insert_value(struct Node** header,int value){
             }
             current=current->left;
         }
-        if (current->value < value){
+        if (current->value <= value){
             if (current->right==NULL){
                 current->right=create_Node(value);
                 return;
@@ -39,38 +40,38 @@ void insert_value(struct Node** header,int value){
         }
     }
 }
-int isSubTreeLesser(struct Node* root,int value){
-    if (root==NULL){
-        return 1;
-    }
-    if (root->value>=value) return 0;
-    return (isSubTreelesser(root->left,value) && isSubTreeLesser(root->right,value) ); 
+// int isSubTreeLesser(struct Node* root,int value){
+//     if (root==NULL){
+//         return 1;
+//     }
+//     if (root->value>=value) return 0;
+//     return (isSubTreelesser(root->left,value) && isSubTreeLesser(root->right,value) ); 
 
 
-}
+// }
 
-int isSubTreeGreater(struct Node* root,int value){
-    if (root==NULL){
-        return 1;
-    }
-    if (root->value <=value ) return 0;
-    return (isSubTreeGreater(root->left,value) && issubTreeGreater(root->right,value));
-    
+// int isSubTreeGreater(struct Node* root,int value){
+//     if (root==NULL){
+//         return 1;
+//     }
+//     if (root->value <=value ) return 0;
+//     return (isSubTreeGreater(root->left,value) && issubTreeGreater(root->right,value));
 
 
-}
 
-int check_binary_search_or_not(struct Node *header){
-    if (header==NULL) return 1;
-    if (isSubTreeGreater(header->right,header->value)
-    &&isSubTreeLesser(header->left,header->value) 
-    && check_binary_search_or_not(header->left)
-     && check_binary_search_or_not(header->right)){
-        return 1;
-    }
-    return 0;
+// }
 
-}
+// int check_binary_search_or_not(struct Node *header){
+//     if (header==NULL) return 1;
+//     if (isSubTreeGreater(header->right,header->value)
+//     &&isSubTreeLesser(header->left,header->value) 
+//     && check_binary_search_or_not(header->left)
+//      && check_binary_search_or_not(header->right)){
+//         return 1;
+//     }
+//     return 0;
+
+// }
 void print_tree(struct Node *header){
     if (header==NULL){
         return;
@@ -82,23 +83,31 @@ void print_tree(struct Node *header){
 
 
 }
+
+// using the min and max constraint
+
+int isBinarySearchTree(struct Node* root,int min,int max){
+    if (root==NULL){
+        return 1;
+    }
+    printf("root value %d \n",root->value);
+    if (root->value >=min && root->value<= max &&
+    isBinarySearchTree(root->left,min,root->value)&&
+    isBinarySearchTree(root->right,root->value ,max)){
+        return 1;
+    }
+    return 0;
+}
+
 int main(){
-    insert_value(&header,1);
-    insert_value(&header,3);
-    insert_value(&header,-2);
-    insert_value(&header,2);
+    insert_value(&header,7);
     insert_value(&header,4);
-    insert_value(&header,10);
-    struct Node *new_not_binary=(struct Node*)malloc(sizeof(struct Node));
-    struct Node *left=(struct Node*)malloc(sizeof(struct Node));
-    struct Node *right=(struct Node*)malloc(sizeof(struct Node));
+    insert_value(&header,9);
 
-    new_not_binary->value=10;
-    left->value=20;
-    right->value=0;
-    new_not_binary->left=left;
-    new_not_binary->right=right;
-    print_tree(new_not_binary);
+    insert_value(&header,1);
+    insert_value(&header,6);
+    insert_value(&header,4);
+    print_tree(header);
 
-    printf("%d",check_binary_search_or_not(new_not_binary));
+    printf("%d",isBinarySearchTree(header,INT_MIN,INT_MAX));
 }
