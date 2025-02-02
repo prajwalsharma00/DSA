@@ -24,22 +24,23 @@ void insert_value(struct Nodes **temp,int value){
         return;
     }
     struct Nodes *current=*temp;  
-   while (1) {
-        if (value < current->value) {
-            if (current->left == NULL) {
-                current->left = create_Node(value);  // ✅ Changes actual tree
-                return;
-            }
-            current = current->left;  // ✅ Moves the pointer, but doesn’t modify header
-        } else {
-            if (current->right == NULL) {
-                current->right = create_Node(value);
-                return;
-            }
-            current = current->right;
-        }
-    }
-}
+//    while (1) {
+//         if (value < current->value) {
+//             if (current->left == NULL) {
+//                 current->left = create_Node(value);  // ✅ Changes actual tree
+//                 return;
+//             }
+//             current = current->left;  // ✅ Moves the pointer, but doesn’t modify header
+//         } else {
+//             if (current->right == NULL) {
+//                 current->right = create_Node(value);
+//                 return;
+//             }
+//             current = current->right;
+//         }
+//     }
+    
+
 void print_tree(struct Nodes* header){
     if (header==NULL){
         return;

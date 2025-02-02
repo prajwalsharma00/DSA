@@ -43,7 +43,8 @@ int isSubTreeLesser(struct Node* root,int value){
     if (root==NULL){
         return 1;
     }
-    return root->value<=value?1:0;
+    if (root->value>=value) return 0;
+    return (isSubTreelesser(root->left,value) && isSubTreeLesser(root->right,value) ); 
 
 
 }
@@ -52,7 +53,10 @@ int isSubTreeGreater(struct Node* root,int value){
     if (root==NULL){
         return 1;
     }
-    return root->value>=value?1:0;
+    if (root->value <=value ) return 0;
+    return (isSubTreeGreater(root->left,value) && issubTreeGreater(root->right,value));
+    
+
 
 }
 

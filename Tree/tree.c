@@ -11,12 +11,13 @@ struct Nodes{
 struct Nodes *header=NULL;
 
 void insert_value(struct Nodes** header,int value){
-    struct Nodes* temp=(struct Nodes*)malloc(sizeof(struct Nodes));
+    
+    if (*header==NULL){
+        struct Nodes* temp=(struct Nodes*)malloc(sizeof(struct Nodes));
     temp->left=NULL;
     temp->right=NULL;
     temp->value=value;
 
-    if (*header==NULL){
         *header=temp;
 
     }else{
@@ -52,12 +53,13 @@ void print_tree(struct Nodes *header){
 }
 
 int main(void){
-    insert_value(&header,1);
+    insert_value(&header,99);
     insert_value(&header,3);
     insert_value(&header,-1);
     insert_value(&header,2);
     insert_value(&header,4);
     insert_value(&header,10);
     print_tree(header);
-    printf("%d %d\n",search(header,3),search(header,2));
+    printf("%d",header->value);
+    // printf("%d %d\n",search(header,3),search(header,2));
 }
