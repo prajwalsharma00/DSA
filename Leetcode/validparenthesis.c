@@ -1,72 +1,57 @@
 #include <string.h>
 #include <stdbool.h>
-#include <stdio.h>
-struct Stack
-{
-    char a[1];
-};
 
 bool isValid(char *s)
 {
-    struct Stack stack[strlen(s)];
+    char stack[strlen(s)];
     int index = 0;
     int i = 0;
     while (s[i] != '\0')
     {
-        if (s[i] == '(')
+        switch (s[i])
         {
-            stack[index].a[0] = '(';
+        case '(':
+        case '{':
+        case '[':
+            stack[index] = s[i];
             index++;
-        }
-        else if (s[i] == '{')
-        {
-            stack[index].a[0] = '{';
-            index++;
-        }
-        else if (s[i] == '[')
-        {
-            stack[index].a[0] = '[';
-            index++;
-        }
-        else
-        {
+            break;
+
+        case ')':
+        case '}':
+        case ']':
             if (index == 0)
             {
                 return false;
             }
             if (s[i] == ')')
             {
-                if (stack[index - 1].a[0] == '(')
-                {
-                    index--;
-                }
-                else
+                if (stack[index - 1] != '(')
                 {
                     return false;
                 }
+                index--;
             }
+
             if (s[i] == '}')
             {
-                if (stack[index - 1].a[0] == '{')
-                {
-                    index--;
-                }
-                else
+                if (stack[index - 1] != '{')
                 {
                     return false;
                 }
+                index--;
             }
             if (s[i] == ']')
             {
-                if (stack[index - 1].a[0] == '[')
-                {
-                    index--;
-                }
-                else
+                if (stack[index - 1] != '[')
                 {
                     return false;
                 }
+                index--;
             }
+            break;
+        default:
+            break;
         }
         i++;
     }
@@ -75,8 +60,4 @@ bool isValid(char *s)
         return true;
     }
     return false;
-}
-int main()
-{
-    printf("{{}} is valid parenthesis : %s", isValid("{{}}") ? "true" : "false");
 }
